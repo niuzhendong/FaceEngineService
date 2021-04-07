@@ -12,7 +12,9 @@ public class FaceServiceImpl implements FaceService {
     @Autowired
     private FaceUtils faceUtils;
 
-    private ImageQuality imageQualityDetect
+    public ImageQuality imageQualityDetect() {
+        return null;
+    }
 
 
 }
