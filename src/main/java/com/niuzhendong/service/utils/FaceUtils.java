@@ -64,6 +64,27 @@ public class FaceUtils {
     }
 
     /**
+     * 图片质量检测
+     * @param inputStream
+     * @param mask 遮盖信息
+     * @return 返回图片中的所有人脸图像质量信息
+     */
+    public FeatureItem imageQualityDetectForSingle(InputStream inputStream, int mask, FaceInfo faceInfo){
+        int errorCode;
+        //处理图像
+        ImageInfo imageInfo = ImageFactory.getRGBData(inputStream);
+        //对传入的人脸结构检测
+        ImageQuality imageQuality = new ImageQuality();
+        errorCode = faceEngine.imageQualityDetect(imageInfo, faceInfo,mask, imageQuality);
+        logger.info("人脸引擎处理结果状态：图像质量检测----"+errorCode);
+        //封装，将人脸结构信息及图像质量一一对应
+        FeatureItem featureItem = new FeatureItem();
+        featureItem.setFaceInfo(faceInfo);
+        featureItem.setImageQuality(imageQuality);
+        return featureItem;
+    }
+
+    /**
      * 获取图像人脸特征-单人脸注册获取特征（确保图象中只有一个人时使用）
      * @param inputStream
      * @return

@@ -40,6 +40,11 @@ public class FaceServiceImpl implements FaceService {
     }
 
     @Override
+    public FeatureItem imageQualityDetectForSingle(InputStream inputStream, int mask, FaceInfo faceInfo) {
+        return faceUtils.imageQualityDetectForSingle(inputStream,mask,faceInfo);
+    }
+
+    @Override
     public FaceFeature getImageFeatureForRegister(InputStream inputStream) {
         return faceUtils.getImageFeatureForRegister(inputStream);
     }

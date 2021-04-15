@@ -18,6 +18,8 @@ public interface FaceService {
 
     List<FeatureItem> imageQualityDetect(InputStream inputStream, int mask, List<FaceInfo> faceInfos);
 
+    FeatureItem imageQualityDetectForSingle(InputStream inputStream, int mask, FaceInfo faceInfo);
+
     FaceFeature getImageFeatureForRegister(InputStream inputStream);
 
     FaceFeature getImageFeatureForRecognize(InputStream inputStream, FaceInfo faceInfo);

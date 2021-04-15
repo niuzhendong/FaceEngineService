@@ -37,7 +37,8 @@ public class MilvusUtils {
         List<Long> ids = new ArrayList<>();
 
         for (FeatureItem feature : featureMaps){
-            ids.add(feature.getId());
+            //ids.add(feature.getId());
+            ids.add(111111l);
             features.add(ByteBuffer.wrap(feature.getFeature().getFeatureData()));
         }
 

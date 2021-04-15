@@ -59,6 +59,12 @@
 			<groupId>io.minio</groupId>
 			<artifactId>minio</artifactId>
 			<version>3.0.10</version>
+			<exclusions>
+				<exclusion>
+					<groupId>com.google.guava</groupId>
+					<artifactId>guava</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>io.milvus</groupId>

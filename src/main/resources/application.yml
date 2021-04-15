@@ -16,12 +16,12 @@ minio:
   secretKey: nzd8712866
 
 face:
-  appId: DeS2sG7SjSpAypwaMbLMi2HCmj3zmr96dET2nTwNZ3Sy
-  sdkKey: CMmZzs5RtDLttzbSRkBJvysiLxJyM2AWmvQrftw5yENU
-  activeKey: 082Y-1143-W14Y-18U9
+  appId: DeS2sG7SjSpAypwaMbLMi2HKw8KEP2YhahJEGUZaywoT
+  sdkKey: D5pgPpJC4js7TL59wY1eqaTV6JCDHpPc2pnVPB9LKM94
+  activeKey: 86C1-116L-L13F-5V6P
   activeFile:
 
 milvus:
   host: 81.69.46.151
-  port: 9000
+  port: 19530
   collectionName: face

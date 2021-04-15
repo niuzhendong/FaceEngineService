@@ -6,5 +6,5 @@ import lombok.Data;
 public class CompareInfo {
     private String url;
     private int tag;
-    private String id;
+    private Long id;
 }

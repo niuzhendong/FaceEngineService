@@ -8,6 +8,9 @@ import com.arcsoft.face.enums.DetectOrient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.util.ResourceUtils;
+
+import java.io.FileNotFoundException;
 
 
 @Configuration
@@ -21,7 +24,15 @@ public class FaceConfig {
      */
     @Bean
     public FaceEngine FaceEngine() {
-        FaceEngine faceEngine = new FaceEngine();
+        String libPath = libPath = "D:\\git\\FaceEngineService\\libs\\WIN64";
+        /**
+         * try {
+         *             libPath = ResourceUtils.getURL("classpath:").getPath()+"WIN64";
+         *         } catch (FileNotFoundException e) {
+         *             e.printStackTrace();
+         *         }
+         */
+        FaceEngine faceEngine = new FaceEngine(libPath);
         if (faceProp.getActiveFile().equals(null) || faceProp.getActiveFile().equals("")) {
             faceEngine.activeOnline(faceProp.getAppId(),faceProp.getSdkKey(),faceProp.getActiveKey());
         } else {
