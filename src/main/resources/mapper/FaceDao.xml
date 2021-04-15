@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.niuzhendong.service.dao.FaceDao">
+    <select id="getFaceInfo" parameterType="java.util.List" resultType="com.niuzhendong.service.dto.Face">
+        select * from Blog where id = #{id}
+    </select>
+    <select id="findFaceInfo" parameterType="com.niuzhendong.service.dto.Face" resultType="com.niuzhendong.service.dto.Face">
+        select * from Blog where id = #{id}
+    </select>
+</mapper>

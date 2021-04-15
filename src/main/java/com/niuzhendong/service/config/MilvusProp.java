@@ -10,4 +10,5 @@ import org.springframework.stereotype.Component;
 public class MilvusProp {
     private String host;
     private int port;
+    private String collectionName;
 }

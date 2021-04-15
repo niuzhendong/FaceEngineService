@@ -92,4 +92,20 @@ public class MinIoUtils {
         }
         return null;
     }
+
+    /**
+     * 获取文件 inputStream
+     * @param bucketName
+     * @param objectName
+     * @return
+     */
+    public InputStream getObject(String bucketName, String objectName){
+        try {
+            return client.getObject(bucketName,objectName);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 }

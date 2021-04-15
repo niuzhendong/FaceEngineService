@@ -24,3 +24,4 @@ face:
 milvus:
   host: 81.69.46.151
   port: 9000
+  collectionName: face
