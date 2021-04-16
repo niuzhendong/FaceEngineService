@@ -11,9 +11,9 @@ import java.io.Serializable;
 public class Result<T> implements Serializable {
     private static final long serialVersionUID = 1L;
     /**
-     * 编码：0表示成功，其他值表示失败
+     * 编码：200表示成功，其他值表示失败
      */
-    private int code = 0;
+    private int code = 200;
     /**
      * 消息内容
      */
@@ -25,6 +25,10 @@ public class Result<T> implements Serializable {
 
     public Result<T> ok(T data) {
         this.setData(data);
+        return this;
+    }
+
+    public Result ok() {
         return this;
     }
 

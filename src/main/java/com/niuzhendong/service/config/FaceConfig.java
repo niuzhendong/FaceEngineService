@@ -5,16 +5,17 @@ import com.arcsoft.face.FaceEngine;
 import com.arcsoft.face.FunctionConfiguration;
 import com.arcsoft.face.enums.DetectMode;
 import com.arcsoft.face.enums.DetectOrient;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.util.ResourceUtils;
-
-import java.io.FileNotFoundException;
 
 
 @Configuration
 public class FaceConfig {
+
+    Logger logger = LoggerFactory.getLogger(FaceConfig.class);
 
     @Autowired
     private FaceProp faceProp;
@@ -24,7 +25,9 @@ public class FaceConfig {
      */
     @Bean
     public FaceEngine FaceEngine() {
-        String libPath = libPath = "D:\\git\\FaceEngineService\\libs\\WIN64";
+        int errorCode = 0;
+        //String libPath = "D:\\git\\FaceEngineService\\libs\\WIN64";
+        String libPath = "/home/niuzhendong/git/service/libs/LINUX64";
         /**
          * try {
          *             libPath = ResourceUtils.getURL("classpath:").getPath()+"WIN64";
@@ -34,9 +37,11 @@ public class FaceConfig {
          */
         FaceEngine faceEngine = new FaceEngine(libPath);
         if (faceProp.getActiveFile().equals(null) || faceProp.getActiveFile().equals("")) {
-            faceEngine.activeOnline(faceProp.getAppId(),faceProp.getSdkKey(),faceProp.getActiveKey());
+            errorCode = faceEngine.activeOnline(faceProp.getAppId(),faceProp.getSdkKey(),faceProp.getActiveKey());
+            logger.info("人脸引擎处理结果状态："+errorCode);
         } else {
-            faceEngine.activeOffline(faceProp.getActiveFile());
+            errorCode = faceEngine.activeOffline(faceProp.getActiveFile());
+            logger.info("人脸引擎处理结果状态："+errorCode);
         }
         //引擎配置
         EngineConfiguration engineConfiguration = new EngineConfiguration();
@@ -59,7 +64,8 @@ public class FaceConfig {
         functionConfiguration.setSupportFaceShelter(true);
         engineConfiguration.setFunctionConfiguration(functionConfiguration);
         //初始化引擎
-        faceEngine.init(engineConfiguration);
+        errorCode = faceEngine.init(engineConfiguration);
+        logger.info("人脸引擎处理结果状态："+errorCode);
         return faceEngine;
     }
 

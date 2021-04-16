@@ -2,9 +2,57 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.niuzhendong.service.dao.FaceDao">
     <select id="getFaceInfo" parameterType="java.util.List" resultType="com.niuzhendong.service.dto.Face">
-        select * from Blog where id = #{id}
+        select  `face_regist_info`.`id`,
+            `face_regist_info`.`peo_id`,
+            `face_regist_info`.`peo_name`,
+            `face_regist_info`.`status`,
+            `face_regist_info`.`peo_type`,
+            `face_regist_info`.`peo_des`,
+            `face_regist_info`.`bucket_name`,
+            `face_regist_info`.`file_name`,
+            `face_regist_info`.`type`
+        FROM `face`.`face_regist_info`
+        WHERE id IN
+        <foreach collection="list" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
     </select>
-    <select id="findFaceInfo" parameterType="com.niuzhendong.service.dto.Face" resultType="com.niuzhendong.service.dto.Face">
-        select * from Blog where id = #{id}
+    <select id="findFaceInfoForList" parameterType="com.niuzhendong.service.dto.Face" resultType="com.niuzhendong.service.dto.Face">
+        select  `face_regist_info`.`id`,
+        `face_regist_info`.`peo_id`,
+        `face_regist_info`.`peo_name`,
+        `face_regist_info`.`status`,
+        `face_regist_info`.`peo_type`,
+        `face_regist_info`.`peo_des`,
+        `face_regist_info`.`bucket_name`,
+        `face_regist_info`.`file_name`,
+        `face_regist_info`.`type`
+        FROM `face`.`face_regist_info`
+        WHERE 1=1
+        <if test="face.peoId!=null and face.peoId!=''">
+            or peo_id like concat('%',#{face.peoId},'%')
+        </if >
     </select>
+    <select id="findFaceInfo" parameterType="java.util.List" resultType="com.niuzhendong.service.dto.Face">
+        select  `face_regist_info`.`id`,
+            `face_regist_info`.`peo_id`,
+            `face_regist_info`.`peo_name`,
+            `face_regist_info`.`status`,
+            `face_regist_info`.`peo_type`,
+            `face_regist_info`.`peo_des`,
+            `face_regist_info`.`bucket_name`,
+            `face_regist_info`.`file_name`,
+            `face_regist_info`.`type`
+        FROM `face`.`face_regist_info`
+        WHERE id = #{id}
+    </select>
+    <update id="updateFaceStatus" parameterType="java.util.List">
+        UPDATE `face`.`face_regist_info`
+        SET
+            `status` = 1,
+        WHERE `id` IN
+        <foreach collection="ids" index="index" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
 </mapper>

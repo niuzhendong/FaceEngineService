@@ -7,6 +7,8 @@ import java.util.List;
 
 @Mapper
 public interface  FaceDao {
-    List<Face> getFaceInfo(List<Long> id);
-    List<Face> findFaceInfo(Face face);
+    List<Face> getFaceInfo(List<Long> ids);
+    List<Face> findFaceInfoForList(Face face);
+    void updateFaceStatus(List<Long> ids);
+    Face findFaceInfo(Long id);
 }

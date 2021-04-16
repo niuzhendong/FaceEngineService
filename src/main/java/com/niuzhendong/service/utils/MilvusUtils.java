@@ -37,8 +37,7 @@ public class MilvusUtils {
         List<Long> ids = new ArrayList<>();
 
         for (FeatureItem feature : featureMaps){
-            //ids.add(feature.getId());
-            ids.add(111111l);
+            ids.add(feature.getFace().getId());
             features.add(ByteBuffer.wrap(feature.getFeature().getFeatureData()));
         }
 
@@ -66,6 +65,10 @@ public class MilvusUtils {
      */
     public SearchResponse searchFeature(List<ByteBuffer> vectorsToSearch, long topK, int nprobe){
 
+        HasCollectionResponse flagRep = milvusClient.hasCollection(milvusProp.getCollectionName());
+        if (!flagRep.ok()) {
+           return null;
+        }
         JsonObject indexParamsJson = new JsonObject();
         indexParamsJson.addProperty("nprobe", nprobe);   //nprobe代表选择最近的多少个聚类去比较。
         SearchParam searchParam =new SearchParam.Builder(milvusProp.getCollectionName()).withBinaryVectors(vectorsToSearch)

@@ -7,8 +7,13 @@ public class Face {
     private Long id;
     private String peoId;
     private String peoName;
-    private String peoPic;
+
     private int status;
     private int peoType;
     private String peoDes;
+
+    private String bucketName;
+    private String fileName;
+
+    private int type;
 }
