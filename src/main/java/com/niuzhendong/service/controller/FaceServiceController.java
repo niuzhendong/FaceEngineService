@@ -24,7 +24,6 @@ import java.net.URLEncoder;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 
 @RestController
@@ -134,10 +133,13 @@ public class FaceServiceController {
             FeatureItem featureItem = faceService.imageQualityDetectForSingle(imageInfo,0,faceInfos.get(0));
             FaceFeature faceFeature = faceService.getImageFeature(imageInfo,featureItem.getFaceInfo());
             featureItem.setFeature(faceFeature);
+            featureItem.setFace(face);
             featureItems.add(featureItem);
         }
         List<Long> insertIds = milvusService.insertFeatures(featureItems);
-        faceService.updateFaceStatus(insertIds);
+        if (insertIds.size() < 1){
+            faceService.updateFaceStatus(insertIds);
+        }
         return new Result().ok();
     }
 

@@ -9,6 +9,8 @@ spring:
 
 mybatis:
   mapper-locations: classpath*:mapper/*.xml
+  configuration:
+    map-underscore-to-camel-case: true
 
 minio:
   endpoint: http://81.69.46.151:9000

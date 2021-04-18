@@ -36,7 +36,7 @@ public class MinioServiceImpl implements MinioService {
 
     @Override
     public InputStream getFileFromMinio(String bucketName, String fileName) {
-        return null;
+        return minIoUtils.getObject(bucketName,fileName);
     }
 
     @Override
