@@ -8,6 +8,6 @@ import java.util.List;
 
 public interface MilvusService {
     List<Long> insertFeatures(List<FeatureItem> features);
-    SearchResponse searchFeature(List<ByteBuffer> vectorsToSearch, long topK);
+    SearchResponse searchFeature(byte[] vectorsToSearch, long topK);
     boolean createIndex(int nlist);
 }

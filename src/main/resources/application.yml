@@ -18,9 +18,10 @@ minio:
   secretKey: nzd8712866
 
 face:
-  appId: DeS2sG7SjSpAypwaMbLMi2HKw8KEP2YhahJEGUZaywoT
-  sdkKey: D5pgPpJC4js7TL59wY1eqaTV6JCDHpPc2pnVPB9LKM94
-  activeKey: 86C1-116L-L13F-5V6P
+  appId: DeS2sG7SjSpAypwaMbLMi2HCmj3zmr96dET2nTwNZ3Sy
+  sdkKey: CMmZzs5RtDLttzbSRkBJvysiLxJyM2AWmvQrftw5yENU
+#  activeKey: 86C1-116L-L13F-5V6P
+  activeKey: 082Y-1143-W162-ZLTQ
   activeFile:
 
 milvus:

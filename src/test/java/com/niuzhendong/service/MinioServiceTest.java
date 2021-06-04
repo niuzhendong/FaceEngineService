@@ -19,7 +19,7 @@ public class MinioServiceTest {
 
         try {
             InputStream inputStream = new FileInputStream("C:\\Users\\niuzhendong\\Pictures\\DOAX-VenusVacation\\DOAX-VenusVacation_201115_190337.jpg");
-            String url = _minioService.uploadFile(inputStream,"face", "yy.jpg", "image/jpeg");
+            String url = _minioService.uploadFile(inputStream,"face", "yy.jpg");
             System.out.println(url);
         } catch (Exception e) {
             e.printStackTrace();

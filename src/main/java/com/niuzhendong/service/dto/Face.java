@@ -16,4 +16,5 @@ public class Face {
     private String fileName;
 
     private int type;
+    private byte[] feature;
 }

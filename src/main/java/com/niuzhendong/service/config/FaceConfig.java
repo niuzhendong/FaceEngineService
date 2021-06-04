@@ -26,8 +26,8 @@ public class FaceConfig {
     @Bean
     public FaceEngine FaceEngine() {
         int errorCode = 0;
-        String libPath = "D:\\git\\FaceEngineService\\libs\\WIN64";
-        //String libPath = "/home/niuzhendong/git/service/libs/LINUX64";
+        //String libPath = "D:\\git\\FaceEngineService\\libs\\WIN64";
+        String libPath = "/home/niuzhendong/git/service/libs/LINUX64";
         /**
          * try {
          *             libPath = ResourceUtils.getURL("classpath:").getPath()+"WIN64";

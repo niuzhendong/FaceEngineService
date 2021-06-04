@@ -22,7 +22,7 @@ public class MilvusServiceImpl implements MilvusService {
     }
 
     @Override
-    public SearchResponse searchFeature(List<ByteBuffer> vectorsToSearch, long topK) {
+    public SearchResponse searchFeature(byte[] vectorsToSearch, long topK) {
         return milvusUtils.searchFeature(vectorsToSearch,topK);
     }
 

@@ -31,34 +31,23 @@ public class MilvusUtils {
      */
     public List<Long> insertFeatures(List<FeatureItem> featureMaps){
 
-        /**
-         * 解法1；（可能性最大）
-         * 将 byte[2056] 转化为 List<float> bit长度不变，分析得维度应为 514，  然后全部升格为 list<Double> 维度不变，bit占用变为 4,112
-         * 514 维度 milvus 以double 为数字存储，bit占用 4,112
-         * 解法1；（可能性较小，c++版本源码中多为float）
-         * 将 byte[2056] 转化为 List<Double> bit长度不变，分析得维度应为 257
-         * 257 维度 milvus 以double 为数字存储，bit占用 2056
-         * 解法2：（理论可操作性有，但是维度过多）
-         * 将 byte[2056] 升格为 List<Double> bit长度变为16,448，维度应为 16,448
-         * TODO 可分别测试转化后的搜索情况
-         */
-
         HasCollectionResponse flagRep = milvusClient.hasCollection(milvusProp.getCollectionName());
         if (flagRep.ok()) {
             if (!flagRep.hasCollection()){
-                createCollect(257,4096,MetricType.L2);
+                createCollect(2056,4096,MetricType.L2);
                 createIndex(16384);
             }
         }
-        List<ByteBuffer> features = new ArrayList<>();
+        List<List<Float>> features = new ArrayList<>();
         List<Long> ids = new ArrayList<>();
         //byte[] f = {1.0,0,1.2};
         for (FeatureItem feature : featureMaps){
             ids.add(feature.getFace().getId());
-            features.add(ByteBuffer.wrap(feature.getFeature().getFeatureData()));
+            List<Float> floats = ByteBufferSerilizable.byteUpToFloatListOTL(feature.getFeature().getFeatureData());
+            features.add(floats);
         }
         //插入特征向量
-        InsertParam insertParam = new InsertParam.Builder(milvusProp.getCollectionName()).withVectorIds(ids).withBinaryVectors(features).build();
+        InsertParam insertParam = new InsertParam.Builder(milvusProp.getCollectionName()).withVectorIds(ids).withFloatVectors(features).build();
         InsertResponse insertResponse = milvusClient.insert(insertParam);
         milvusClient.flush(milvusProp.getCollectionName());
         boolean flag = insertResponse.ok();
@@ -77,7 +66,7 @@ public class MilvusUtils {
      * @param topK
      * @return
      */
-    public SearchResponse searchFeature(List<ByteBuffer> vectorsToSearch, long topK, int nprobe){
+    public SearchResponse searchFeature(List<List<Float>> vectorsToSearch, long topK, int nprobe){
 
         HasCollectionResponse flagRep = milvusClient.hasCollection(milvusProp.getCollectionName());
         if (flagRep.ok()) {
@@ -87,7 +76,7 @@ public class MilvusUtils {
         }
         JsonObject indexParamsJson = new JsonObject();
         indexParamsJson.addProperty("nprobe", nprobe);   //nprobe代表选择最近的多少个聚类去比较。
-        SearchParam searchParam =new SearchParam.Builder(milvusProp.getCollectionName()).withBinaryVectors(vectorsToSearch)
+        SearchParam searchParam =new SearchParam.Builder(milvusProp.getCollectionName()).withFloatVectors(vectorsToSearch)
                 .withParamsInJson(indexParamsJson.toString())
                 .withTopK(topK)
                 .build();
@@ -95,8 +84,10 @@ public class MilvusUtils {
         return searchResponse;
     }
 
-    public SearchResponse searchFeature(List<ByteBuffer> vectorsToSearch, long topK){
-        return searchFeature(vectorsToSearch, topK, 15);
+    public SearchResponse searchFeature(byte[] vectorsToSearch, long topK){
+        List<List<Float>> lists = new ArrayList<>();
+        lists.add(ByteBufferSerilizable.byteUpToFloatListOTL(vectorsToSearch));
+        return searchFeature(lists, topK, 15);
     }
 
     /**

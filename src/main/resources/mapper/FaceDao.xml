@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.niuzhendong.service.dao.FaceDao">
-    <select id="getFaceInfo" parameterType="java.util.List" resultType="com.niuzhendong.service.dto.Face">
+    <select id="getFaceInfo" resultType="com.niuzhendong.service.dto.Face">
         select  `face_regist_info`.`id`,
             `face_regist_info`.`peo_id`,
             `face_regist_info`.`peo_name`,
@@ -10,14 +10,33 @@
             `face_regist_info`.`peo_des`,
             `face_regist_info`.`bucket_name`,
             `face_regist_info`.`file_name`,
-            `face_regist_info`.`type`
+            `face_regist_info`.`type`,
+            `face_regist_info`.`feature`
         FROM `face`.`face_regist_info`
-        WHERE id IN
+        WHERE type = 1 and status = 0
+    </select>
+    <update id="setFaceType" parameterType="java.util.List">
+        UPDATE `face`.`face_regist_info`
+        SET
+        `type` = #{type}
+        where id in
         <foreach collection="list" index="index" item="item" open="(" separator="," close=")">
             #{item}
         </foreach>
+    </update>
+    <select id="getFaceList" resultType="com.niuzhendong.service.dto.Face">
+        select  `face_regist_info`.`id`,
+        `face_regist_info`.`peo_id`,
+        `face_regist_info`.`peo_name`,
+        `face_regist_info`.`status`,
+        `face_regist_info`.`peo_type`,
+        `face_regist_info`.`peo_des`,
+        `face_regist_info`.`bucket_name`,
+        `face_regist_info`.`file_name`,
+        `face_regist_info`.`type`
+        FROM `face`.`face_regist_info`
     </select>
-    <select id="findFaceInfoForList" parameterType="com.niuzhendong.service.dto.Face" resultType="com.niuzhendong.service.dto.Face">
+    <select id="findFaceInfoForList" parameterType="java.lang.String" resultType="com.niuzhendong.service.dto.Face">
         select  `face_regist_info`.`id`,
         `face_regist_info`.`peo_id`,
         `face_regist_info`.`peo_name`,
@@ -29,8 +48,11 @@
         `face_regist_info`.`type`
         FROM `face`.`face_regist_info`
         WHERE 1=1
-        <if test="face.peoId!=null and face.peoId!=''">
-            or peo_id like concat('%',#{face.peoId},'%')
+        <if test="query!=null and query!=''">
+            or peo_id like concat('%',#{query},'%')
+        </if >
+        <if test="query!=null and query!=''">
+            or peo_name like concat('%',#{query},'%')
         </if >
     </select>
     <select id="findFaceInfo" parameterType="java.util.List" resultType="com.niuzhendong.service.dto.Face">
@@ -42,9 +64,13 @@
             `face_regist_info`.`peo_des`,
             `face_regist_info`.`bucket_name`,
             `face_regist_info`.`file_name`,
-            `face_regist_info`.`type`
+            `face_regist_info`.`type`,
+            `face_regist_info`.`feature`
         FROM `face`.`face_regist_info`
-        WHERE id = #{id}
+        WHERE id in
+        <foreach collection="list" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
     </select>
     <update id="updateFaceStatus" parameterType="java.util.List">
         UPDATE `face`.`face_regist_info`
@@ -54,5 +80,11 @@
         <foreach collection="ids" index="index" item="id" open="(" separator="," close=")">
             #{id}
         </foreach>
+    </update>
+    <update id="updateFace" parameterType="com.niuzhendong.service.dto.Face">
+        UPDATE `face`.`face_regist_info`
+        SET
+        `feature` = #{feature}
+        WHERE `id` = #{id}
     </update>
 </mapper>
